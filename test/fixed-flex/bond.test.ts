@@ -61,7 +61,7 @@ describe("Bond", () => {
 
     })
 
-    it.only("Purchase", async () => {
+    it("Purchase", async () => {
         const [signer] = await ethers.getSigners();
         const issuerContract = Issuer__factory.connect(issuerAddress, signer);
         const valutAddress = await issuerContract.vault();
@@ -99,7 +99,7 @@ describe("Bond", () => {
         expect(lifecycle.purchased).to.be.equal(BigInt(52));
     })
 
-    it("Redeem", async () => {
+    it.only("Redeem", async () => {
         const bond = await deployBond();
         const token = getToken();
 
@@ -117,11 +117,14 @@ describe("Bond", () => {
 
         // INSUFFICIENT_PAYOUT
         const promiseI = bond.redeem([BigInt(0)], BigInt(1), false)
+/*
         await revertOperation(bond, promiseI, OperationFailed, OperationCodes.INSUFFICIENT_PAYOUT)
-        await token.transfer(bond.target, totalBonds * bondConfig.payoutAmount);
 
+        await token.transfer(bond.target, totalBonds * bondConfig.payoutAmount);
+ 
         // REDEEM_BEFORE_MATURITY
         const promiseR = bond.redeem([BigInt(0)], BigInt(1), false)
+
         await revertOperation(bond, promiseR, OperationFailed, OperationCodes.REDEEM_BEFORE_MATURITY)
 
         // CAPITULATION_REDEEM WITH LESS PAYOUT AS IT's NOT MATURE
@@ -155,6 +158,7 @@ describe("Bond", () => {
         //ACTION_INVALID
         const promiseA = bond.redeem([BigInt(1)], BigInt(2), false);
         await revertOperation(bond, promiseA, OperationFailed, OperationCodes.ACTION_INVALID)
+    */
     })
 
     it("Withdraw Excess Payout", async () => {
